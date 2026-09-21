@@ -1,17 +1,16 @@
 import SwiftUI
-import Playgrounds
+import SwiftData
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        // 画面遷移の土台。Place Home → Spatial View →（次回）Space Detail と積み重なっていきます。
+        NavigationStack {
+            PlaceHomeView()
+        }
     }
 }
 
 #Preview {
     ContentView()
-}
-
-#Playground {
-    _ = 1 + 2
+        .modelContainer(.preview)
 }
