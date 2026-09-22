@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 /// 画面2: Spatial View
 ///
@@ -9,6 +10,8 @@ struct SpatialView: View {
     /// SwiftData のモデルは参照型なので、受け取った place 自体が常に最新です。
     /// Space Detail でタスクを完了して戻ると、間取りの点もそのまま減っています。
     let place: Place
+
+    @Environment(\.modelContext) private var modelContext
 
     /// ズーム遷移で「押した部屋」と「開く画面」を結びつけるための名前空間。
     @Namespace private var zoomNamespace
@@ -21,35 +24,95 @@ struct SpatialView: View {
     /// 将来フォーカス移動の演出を足すときも、この値の変化に反応させるだけで済みます。
     @State private var focusedSpaceID: Space.ID?
 
+    /// 部屋を追加するシートを開いているか。
+    @State private var isAddingRoom = false
+
+    /// 削除の確認中の部屋。値が入ると確認ダイアログが出る。
+    @State private var spacePendingDeletion: Space?
+
+    /// 間取りに使える横幅。画面の幅から左右の余白を引いたもの。
+    @State private var planWidth: CGFloat = 0
+
+    /// 追加した順に並べた部屋。間取りはこの順で上から詰めていきます。
+    private var sortedSpaces: [Space] {
+        place.spaces.sorted { $0.sortIndex < $1.sortIndex }
+    }
+
     var body: some View {
         ZStack {
             AmbientBackground()
-                // 部屋の外をタップするとフォーカスが外れる。
-                .onTapGesture { focus(nil) }
 
-            VStack(alignment: .leading, spacing: 0) {
-                header
+            // 部屋を足していくと家が下に伸びるので、全体をスクロールできるようにする。
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    header
 
-                FloorPlan(
-                    spaces: place.spaces,
-                    focusedSpaceID: focusedSpaceID,
-                    namespace: zoomNamespace,
-                    onSelect: select
+                    if planWidth > 0 {
+                        FloorPlan(
+                            spaces: sortedSpaces,
+                            width: planWidth,
+                            focusedSpaceID: focusedSpaceID,
+                            namespace: zoomNamespace,
+                            onSelect: select,
+                            onDelete: { spacePendingDeletion = $0 },
+                            onAddRoom: { isAddingRoom = true }
+                        )
+                        .padding(.horizontal, 20)
+                    }
+
+                    caption
+                }
+                // 部屋の外（余白）をタップするとフォーカスが外れる。
+                .background(
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture { focus(nil) }
                 )
-                .padding(.horizontal, 20)
-                .frame(maxHeight: .infinity)
-
-                caption
+            }
+            .scrollIndicators(.hidden)
+            // 画面の幅が分かったら、間取りの横幅を決める。
+            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width in
+                planWidth = width - 40
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    isAddingRoom = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+                .accessibilityLabel("部屋を追加")
+            }
+        }
         // focusedSpaceID が変わるたびに、軽い選択のハプティクスを鳴らす。
         .sensoryFeedback(.selection, trigger: focusedSpaceID)
-        // enteredSpaceID に値が入ったら、その Space の画面を開く。
+        // 部屋が増えた・減ったときの、ごく軽い手応え。
+        .sensoryFeedback(.impact(weight: .light), trigger: place.spaces.count)
+        // enteredSpace に値が入ったら、その Space の画面を開く。
         .navigationDestination(item: $enteredSpace) { space in
             SpaceDetailView(space: space)
                 // タップした部屋がそのまま広がって、Space Detail になる。
                 .navigationTransition(.zoom(sourceID: space.id, in: zoomNamespace))
+        }
+        .sheet(isPresented: $isAddingRoom) {
+            AddRoomView(place: place)
+        }
+        .confirmationDialog(
+            deletionTitle,
+            isPresented: Binding(
+                get: { spacePendingDeletion != nil },
+                set: { if !$0 { spacePendingDeletion = nil } }
+            ),
+            titleVisibility: .visible,
+            presenting: spacePendingDeletion
+        ) { space in
+            Button("削除", role: .destructive) { delete(space) }
+        } message: { space in
+            Text(space.openTaskCount == 0
+                 ? "この操作は取り消せません。"
+                 : "中にある、やること \(space.openTaskCount) 件も一緒に削除されます。この操作は取り消せません。")
         }
     }
 
@@ -80,8 +143,8 @@ struct SpatialView: View {
             .foregroundStyle(focusedSpace == nil ? .tertiary : .secondary)
             .contentTransition(.opacity)
             .frame(maxWidth: .infinity)
-            .padding(.top, 40)
-            .padding(.bottom, 20)
+            .padding(.top, 36)
+            .padding(.bottom, 24)
     }
 
     private var focusedSpace: Space? {
@@ -104,6 +167,22 @@ struct SpatialView: View {
         enteredSpace = space
     }
 
+    private var deletionTitle: String {
+        "「\(spacePendingDeletion?.name.uppercased() ?? "")」を削除しますか？"
+    }
+
+    private func delete(_ space: Space) {
+        // 削除すると、後ろの部屋が空いた場所へ詰めて動く。その動きをアニメーションにする。
+        withAnimation(.snappy(duration: 0.35)) {
+            if focusedSpaceID == space.id {
+                focusedSpaceID = nil
+            }
+            // Space を消すと、中の Task も一緒に消えます（モデルの .cascade 設定）。
+            modelContext.delete(space)
+            try? modelContext.save()
+        }
+    }
+
     private func focus(_ id: Space.ID?) {
         withAnimation(.snappy(duration: 0.28)) {
             focusedSpaceID = id
@@ -113,72 +192,90 @@ struct SpatialView: View {
 
 // MARK: - Floor Plan
 
-/// 間取り図。PlanRect（0〜1 の割合）を、実際の表示サイズに変換して部屋を配置します。
+/// 間取り図。部屋の大きさと順番から配置を計算し（FloorPlanLayout）、ポイントに変換して並べます。
 private struct FloorPlan: View {
     let spaces: [Space]
+    let width: CGFloat
     let focusedSpaceID: Space.ID?
     let namespace: Namespace.ID
     let onSelect: (Space) -> Void
+    let onDelete: (Space) -> Void
+    let onAddRoom: () -> Void
 
-    /// 間取り全体の 幅 : 高さ。iPhone の縦画面に収まる比率にしています。
-    private let aspectRatio: CGFloat = 0.78
-
-    /// 玄関の位置（下辺のうち、左から何割〜何割を開けるか）。
-    private let entrance: ClosedRange<Double> = 0.2...0.36
+    /// 部屋どうしを仕切る壁の色。
+    /// 隣り合う部屋の枠線はぴったり同じ位置に重なるので、半透明だと重なった所だけ濃くなります。
+    /// 不透明な色（systemGray4）にして、重なっても濃さが変わらないようにしています。
+    private let wallColor = Color(uiColor: .systemGray4)
 
     var body: some View {
-        // GeometryReader で「いま使える大きさ」を受け取り、割合をポイントに変換します。
-        GeometryReader { proxy in
-            let size = proxy.size
+        let layout = FloorPlanLayout(sizes: spaces.map(\.size))
+        let metrics = FloorPlanMetrics(width: width, rowCount: layout.rowCount)
 
-            ZStack {
-                ForEach(spaces) { space in
-                    let rect = space.plan.rect(in: size)
+        ZStack {
+            // 空いているマス。タップすると部屋を追加できる。
+            ForEach(layout.holes, id: \.self) { hole in
+                let rect = metrics.rect(row: hole.row, column: hole.column, columns: 1, rows: 1)
 
-                    Button {
-                        onSelect(space)
-                    } label: {
-                        RoomView(
-                            space: space,
-                            isFocused: space.id == focusedSpaceID,
-                            isDimmed: focusedSpaceID != nil && space.id != focusedSpaceID
-                        )
-                    }
-                    .buttonStyle(RoomButtonStyle())
-                    .frame(width: rect.width, height: rect.height)
-                    // この部屋を、ズーム遷移の「出発点」として登録する。
-                    .matchedTransitionSource(id: space.id, in: namespace)
-                    .position(x: rect.midX, y: rect.midY)
+                Button(action: onAddRoom) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 15, weight: .light))
+                        .foregroundStyle(.tertiary)
+                        .frame(width: rect.width, height: rect.height)
+                        .contentShape(Rectangle())
                 }
-
-                // 壁は部屋の上に一枚の図形として重ねます（理由は Walls のコメント参照）。
-                Walls(rooms: spaces.map(\.plan))
-                    .stroke(Color.primary.opacity(0.16), lineWidth: 1)
-                    .allowsHitTesting(false)
-
-                OuterWall(entrance: entrance)
-                    .stroke(Color.primary.opacity(0.5),
-                            style: StrokeStyle(lineWidth: 1.5, lineCap: .square))
-                    .allowsHitTesting(false)
-
-                Text("ENTRANCE")
-                    .font(.system(size: 9, weight: .medium))
-                    .tracking(2)
-                    .foregroundStyle(.tertiary)
-                    .position(
-                        x: size.width * (entrance.lowerBound + entrance.upperBound) / 2,
-                        y: size.height + 16
-                    )
+                .buttonStyle(RoomButtonStyle())
+                .accessibilityLabel("部屋を追加")
+                .position(x: rect.midX, y: rect.midY)
+                .transition(.opacity)
             }
-            .frame(width: size.width, height: size.height)
+
+            ForEach(Array(zip(spaces, layout.placements)), id: \.0.id) { space, placement in
+                let rect = metrics.rect(
+                    row: placement.row,
+                    column: placement.column,
+                    columns: placement.size.columns,
+                    rows: placement.size.rows
+                )
+
+                Button {
+                    onSelect(space)
+                } label: {
+                    RoomView(
+                        space: space,
+                        isFocused: space.id == focusedSpaceID,
+                        isDimmed: focusedSpaceID != nil && space.id != focusedSpaceID
+                    )
+                }
+                .buttonStyle(RoomButtonStyle())
+                .frame(width: rect.width, height: rect.height)
+                // 壁は部屋ごとに持たせる。部屋が詰めて動くとき、壁も一緒に動くようにするためです。
+                .overlay(Rectangle().stroke(wallColor, lineWidth: 1))
+                // この部屋を、ズーム遷移の「出発点」として登録する。
+                .matchedTransitionSource(id: space.id, in: namespace)
+                // 長押しで出るメニュー。
+                .contextMenu {
+                    Button(role: .destructive) {
+                        onDelete(space)
+                    } label: {
+                        Label("部屋を削除", systemImage: "trash")
+                    }
+                }
+                .position(x: rect.midX, y: rect.midY)
+                .transition(.opacity.combined(with: .scale(scale: 0.94)))
+            }
+
+            // 外壁。部屋の枠線より太く、濃く。
+            Rectangle()
+                .stroke(Color.primary.opacity(0.5), lineWidth: 1.5)
+                .allowsHitTesting(false)
         }
-        .aspectRatio(aspectRatio, contentMode: .fit)
+        .frame(width: metrics.size.width, height: metrics.size.height)
     }
 }
 
 // MARK: - Room
 
-/// ひとつの部屋。枠線は持たず、床の色と中身だけを描きます。
+/// ひとつの部屋の床と中身。壁（枠線）は FloorPlan の側で重ねます。
 private struct RoomView: View {
     let space: Space
     let isFocused: Bool
@@ -244,78 +341,6 @@ private struct RoomButtonStyle: ButtonStyle {
         configuration.label
             .opacity(configuration.isPressed ? 0.6 : 1)
             .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
-    }
-}
-
-// MARK: - Walls
-
-/// 部屋どうしを仕切る内壁。
-///
-/// 部屋ごとに枠線を引くと、隣り合う部屋の線が二重に重なって濃くなってしまいます。
-/// そこで全ての壁を「1つの Path」にまとめて一度に描いています。
-/// 1つの Path 内で線が重なっても、濃さは変わりません。
-///
-/// また外周上の辺はここでは描かず、OuterWall に任せます（玄関の隙間を開けるため）。
-private struct Walls: Shape {
-    let rooms: [PlanRect]
-
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let isOnBoundary = { (value: Double) in value < 0.001 || value > 0.999 }
-
-        for room in rooms {
-            let r = room.rect(in: rect.size)
-            if !isOnBoundary(room.y) {
-                path.move(to: CGPoint(x: r.minX, y: r.minY))
-                path.addLine(to: CGPoint(x: r.maxX, y: r.minY))
-            }
-            if !isOnBoundary(room.y + room.height) {
-                path.move(to: CGPoint(x: r.minX, y: r.maxY))
-                path.addLine(to: CGPoint(x: r.maxX, y: r.maxY))
-            }
-            if !isOnBoundary(room.x) {
-                path.move(to: CGPoint(x: r.minX, y: r.minY))
-                path.addLine(to: CGPoint(x: r.minX, y: r.maxY))
-            }
-            if !isOnBoundary(room.x + room.width) {
-                path.move(to: CGPoint(x: r.maxX, y: r.minY))
-                path.addLine(to: CGPoint(x: r.maxX, y: r.maxY))
-            }
-        }
-        return path
-    }
-}
-
-/// 家の外壁。下辺に玄関の隙間を開けて、一周ぐるりと描きます。
-private struct OuterWall: Shape {
-    let entrance: ClosedRange<Double>
-
-    func path(in rect: CGRect) -> Path {
-        let gapStart = rect.minX + rect.width * entrance.lowerBound
-        let gapEnd = rect.minX + rect.width * entrance.upperBound
-
-        var path = Path()
-        path.move(to: CGPoint(x: gapStart, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: gapEnd, y: rect.maxY))
-        return path
-    }
-}
-
-// MARK: - Helpers
-
-private extension PlanRect {
-    /// 0〜1 の割合を、実際の表示サイズ上の CGRect に変換する。
-    func rect(in size: CGSize) -> CGRect {
-        CGRect(
-            x: x * size.width,
-            y: y * size.height,
-            width: width * size.width,
-            height: height * size.height
-        )
     }
 }
 

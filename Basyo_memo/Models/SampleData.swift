@@ -18,8 +18,9 @@ enum SampleData {
             let place = Place(name: seed.name, symbolName: seed.symbolName, sortIndex: index)
             context.insert(place)
 
-            for spaceSeed in seed.spaces {
-                let space = Space(name: spaceSeed.name, symbolName: spaceSeed.symbolName, plan: spaceSeed.plan)
+            for (spaceIndex, spaceSeed) in seed.spaces.enumerated() {
+                let space = Space(name: spaceSeed.name, symbolName: spaceSeed.symbolName,
+                                  size: spaceSeed.size, sortIndex: spaceIndex)
                 // 先に insert してから関係を結ぶのが SwiftData の安全な順番です。
                 context.insert(space)
                 space.place = place
@@ -48,52 +49,41 @@ enum SampleData {
     private struct SpaceSeed {
         let name: String
         let symbolName: String
-        let plan: PlanRect
+        let size: RoomSize
         var tasks: [String] = []
     }
 
     private static let seeds: [PlaceSeed] = [
-        // 間取り（左 60% / 右 40%）
+        // 間取り（横2列のマス目に、上から順に詰めて並べる）
         //
-        //  ┌──────────┬───────┐
-        //  │ BEDROOM  │ BATH  │
-        //  │          ├───────┤
-        //  │          │TOILET │
-        //  ├──────────┼───────┤
-        //  │          │       │
-        //  │  LIVING  │KITCHEN│
-        //  │          │       │
-        //  └──┘    └──┴───────┘  ← 下辺の隙間が玄関
+        //  ┌─────────┬─────────┐
+        //  │         │BATH  (小)│
+        //  │ BEDROOM ├─────────┤
+        //  │   (中)  │TOILET(小)│
+        //  ├─────────┼─────────┤
+        //  │ LIVING  │ KITCHEN │
+        //  │   (中)  │   (中)  │
+        //  └─────────┴─────────┘
         PlaceSeed(name: "HOME", symbolName: "house", spaces: [
-            SpaceSeed(name: "Bedroom", symbolName: "bed.double",
-                      plan: PlanRect(x: 0, y: 0, width: 0.6, height: 0.4),
+            SpaceSeed(name: "Bedroom", symbolName: "bed.double", size: .medium,
                       tasks: ["シーツを洗う"]),
-            SpaceSeed(name: "Living", symbolName: "sofa",
-                      plan: PlanRect(x: 0, y: 0.4, width: 0.6, height: 0.6),
-                      tasks: ["電池を交換"]),
-            SpaceSeed(name: "Kitchen", symbolName: "frying.pan",
-                      plan: PlanRect(x: 0.6, y: 0.4, width: 0.4, height: 0.6),
-                      tasks: ["ゴミ袋を補充", "洗剤を確認", "シンクを掃除"]),
-            SpaceSeed(name: "Bathroom", symbolName: "bathtub",
-                      plan: PlanRect(x: 0.6, y: 0, width: 0.4, height: 0.24),
+            SpaceSeed(name: "Bathroom", symbolName: "bathtub", size: .small,
                       tasks: ["シャンプーを詰め替える"]),
-            SpaceSeed(name: "Toilet", symbolName: "toilet",
-                      plan: PlanRect(x: 0.6, y: 0.24, width: 0.4, height: 0.16))
+            SpaceSeed(name: "Toilet", symbolName: "toilet", size: .small),
+            SpaceSeed(name: "Living", symbolName: "sofa", size: .medium,
+                      tasks: ["電池を交換"]),
+            SpaceSeed(name: "Kitchen", symbolName: "frying.pan", size: .medium,
+                      tasks: ["ゴミ袋を補充", "洗剤を確認", "シンクを掃除"])
         ]),
-        // UNIVERSITY / WORK の間取りは仮です。
         PlaceSeed(name: "UNIVERSITY", symbolName: "graduationcap", spaces: [
-            SpaceSeed(name: "Classroom", symbolName: "person.3",
-                      plan: PlanRect(x: 0, y: 0, width: 1, height: 0.55),
+            SpaceSeed(name: "Classroom", symbolName: "person.3", size: .large,
                       tasks: ["レポートを提出"]),
-            SpaceSeed(name: "Library", symbolName: "books.vertical",
-                      plan: PlanRect(x: 0, y: 0.55, width: 1, height: 0.45),
+            SpaceSeed(name: "Library", symbolName: "books.vertical", size: .medium,
                       tasks: ["借りた本を返す"])
         ]),
         PlaceSeed(name: "WORK", symbolName: "briefcase", spaces: [
-            SpaceSeed(name: "Desk", symbolName: "laptopcomputer",
-                      plan: PlanRect(x: 0, y: 0, width: 1, height: 0.6)),
-            SpaceSeed(name: "Meeting Room", symbolName: "person.2",
-                      plan: PlanRect(x: 0, y: 0.6, width: 1, height: 0.4))
+            SpaceSeed(name: "Desk", symbolName: "laptopcomputer", size: .large),
+            SpaceSeed(name: "Meeting Room", symbolName: "person.2", size: .medium)
         ])
     ]
 }
