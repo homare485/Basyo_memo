@@ -13,4 +13,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .modelContainer(.preview)
+        .environment(ProAccess())
 }

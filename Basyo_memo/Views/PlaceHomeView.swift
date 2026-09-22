@@ -11,6 +11,7 @@ struct PlaceHomeView: View {
     @Query(sort: \Place.sortIndex) private var places: [Place]
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(ProAccess.self) private var pro
 
     /// 最後に中へ入った場所。次に起動したとき、この場所を大きなカードで出します。
     ///
@@ -29,11 +30,23 @@ struct PlaceHomeView: View {
 
     @State private var isAddingPlace = false
 
+    /// Pro の案内を開いているか。
+    @State private var isShowingPaywall = false
+
+    /// Pro の案内で購入が済んだら、案内を閉じたあとに場所の追加へ進む。
+    @State private var shouldAddPlaceAfterPaywall = false
+
     /// 追加した直後の場所。一覧に現れたら、そこまでスライドします。
     @State private var pendingPlaceID: Place.ID?
 
     /// 削除の確認中の場所。
     @State private var placePendingDeletion: Place?
+
+    /// 新しい場所を作れるか。無料では3つまで。Pro なら無制限。
+    /// すでに4つ以上ある無料の利用者も、今ある場所はそのまま使え、新しく足すときだけ案内が出ます。
+    private var canAddPlace: Bool {
+        pro.isPro || places.count < PurchaseConfig.freePlaceLimit
+    }
 
     /// 大きなカード以外の、残りの場所。
     private var otherPlaces: [Place] {
@@ -88,6 +101,17 @@ struct PlaceHomeView: View {
         .sheet(isPresented: $isAddingPlace) {
             AddPlaceView { newPlace in
                 pendingPlaceID = newPlace.id
+            }
+        }
+        .sheet(isPresented: $isShowingPaywall, onDismiss: {
+            // シートを2枚同時には開けないので、Pro の案内が閉じきってから場所の追加を開く。
+            if shouldAddPlaceAfterPaywall {
+                shouldAddPlaceAfterPaywall = false
+                isAddingPlace = true
+            }
+        }) {
+            ProPaywallView {
+                shouldAddPlaceAfterPaywall = true
             }
         }
         .confirmationDialog(
@@ -199,13 +223,27 @@ struct PlaceHomeView: View {
 
     private var addPlaceButton: some View {
         Button {
-            isAddingPlace = true
+            if canAddPlace {
+                isAddingPlace = true
+            } else {
+                isShowingPaywall = true
+            }
         } label: {
             HStack(spacing: 8) {
                 Image(systemName: "plus")
                     .font(.system(size: 13, weight: .medium))
                 Text("新しい場所")
                     .font(.system(size: 14))
+
+                // 無料の上限に達しているときだけ、小さく「PRO」と添える。
+                if !canAddPlace {
+                    Text("PRO")
+                        .font(.system(size: 9, weight: .semibold))
+                        .tracking(1.5)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .overlay(Capsule().stroke(Color.primary.opacity(0.25), lineWidth: 1))
+                }
             }
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity)
@@ -425,4 +463,5 @@ private struct GatewayButtonStyle: ButtonStyle {
         PlaceHomeView()
     }
     .modelContainer(.preview)
+    .environment(ProAccess())
 }
