@@ -24,7 +24,7 @@ struct AddRoomView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(place.name)
+            Text(place.displayName)
                 .font(.system(size: 11, weight: .medium))
                 .tracking(2)
                 .foregroundStyle(.tertiary)

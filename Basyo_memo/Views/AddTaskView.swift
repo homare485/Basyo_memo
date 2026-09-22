@@ -54,7 +54,7 @@ struct AddTaskView: View {
     private var location: some View {
         HStack(spacing: 8) {
             if let place = space.place {
-                Text(place.name)
+                Text(place.displayName)
                 Image(systemName: "chevron.right")
                     .font(.system(size: 8, weight: .semibold))
             }

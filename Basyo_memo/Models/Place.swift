@@ -26,6 +26,14 @@ final class Place {
         self.sortIndex = sortIndex
     }
 
+    /// 画面に出すときの名前。
+    ///
+    /// いまは仮に、どの言語でも大文字にして表示しています（日本語の名前はそのまま）。
+    /// 言語ごとに見せ方を変えるときは、ここだけを直せば全画面に反映されます。
+    var displayName: String {
+        name.uppercased()
+    }
+
     /// まだ終わっていないタスクの数。
     var openTaskCount: Int {
         spaces.reduce(0) { $0 + $1.openTaskCount }

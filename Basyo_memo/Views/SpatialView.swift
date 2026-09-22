@@ -120,11 +120,13 @@ struct SpatialView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(place.name)
+            Text(place.displayName)
                 .font(.system(size: 28, weight: .regular))
                 .tracking(5)
 
-            Text("\(place.spaces.count)つの空間 · やること \(place.openTaskCount)")
+            Text(place.spaces.isEmpty
+                 ? "部屋はまだありません"
+                 : "\(place.spaces.count)つの空間 · やること \(place.openTaskCount)")
                 .font(.system(size: 12))
                 .foregroundStyle(.tertiary)
         }
@@ -152,6 +154,8 @@ struct SpatialView: View {
     }
 
     private var captionText: String {
+        // 部屋が1つもない場所では、「選んで」ではなく「つくれる」ことを伝える。
+        if place.spaces.isEmpty { return "＋ から部屋をつくれます" }
         guard let space = focusedSpace else { return "空間を選んでください" }
         return space.openTaskCount == 0
             ? "\(space.name.uppercased()) — 片付いています"
