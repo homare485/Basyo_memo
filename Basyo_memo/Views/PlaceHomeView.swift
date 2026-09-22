@@ -138,8 +138,8 @@ struct PlaceHomeView: View {
 
     /// 大きなカードを横に並べたページ送り。
     ///
-    /// - `.scrollTargetLayout()` と `.scrollTargetBehavior(.viewAligned)`:
-    ///   指を離すと、いちばん近いカードの位置にぴたりと止まる
+    /// - `.scrollTargetLayout()` と `.scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))`:
+    ///   指を離すとカードの位置にぴたりと止まり、どれだけ強く弾いても1枚ずつしか進まない
     /// - `.scrollPosition(id:)`: いまどのカードが表示されているかを currentPlaceID と連動させる。
     ///   逆に currentPlaceID を書き換えると、そのカードまでスクロールする
     private var featuredPager: some View {
@@ -163,11 +163,17 @@ struct PlaceHomeView: View {
             }
             .scrollTargetLayout()
         }
-        .scrollTargetBehavior(.viewAligned)
+        .scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))
         .scrollPosition(id: $currentPlaceID)
         .scrollIndicators(.hidden)
-        .contentMargins(.horizontal, 20, for: .scrollContent)
-        .frame(height: 300)
+        // 左端は見出しや下の一覧とそろえ、右側だけ余白を広げる。
+        // こうすると右隣のカードが少しのぞいて、「横にまだある」ことが分かります。
+        .contentMargins(.leading, 20, for: .scrollContent)
+        .contentMargins(.trailing, 32, for: .scrollContent)
+        // カードの高さは画面の高さに合わせる。小さい iPhone では低く、大きい iPhone では高くなります。
+        .containerRelativeFrame(.vertical) { height, _ in
+            min(max(height * 0.4, 240), 380)
+        }
         .sensoryFeedback(.selection, trigger: currentPlaceID)
     }
 
