@@ -12,7 +12,7 @@ enum PurchaseConfig {
     #if DEBUG
     static let apiKey = "test_LrkAptHRCPliPcYVGsbEDNRGzCk"
     #else
-    static let apiKey = "appl_REPLACE_WITH_APP_STORE_KEY"
+    static let apiKey = "appl_NAqwtcOzvfGSeNZtfuDMLQKeIoY"
     #endif
 
     /// RevenueCat の権利（Entitlement）の ID。これが有効なら Pro。
