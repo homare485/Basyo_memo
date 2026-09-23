@@ -14,6 +14,12 @@
             "state": "translated",
             "value": "%@ — やること %lld"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ — %lld 件待辦"
+          }
         }
       }
     },
@@ -29,6 +35,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ — 片付いています"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ — 已整理完畢"
           }
         }
       }
@@ -46,6 +58,12 @@
             "state": "translated",
             "value": "%@ で Pro にする"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以 %@ 升級 Pro"
+          }
         }
       }
     },
@@ -61,6 +79,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ に置く"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放進 %@"
           }
         }
       }
@@ -78,6 +102,12 @@
             "state": "translated",
             "value": "%@（サンプル）"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@（範例）"
+          }
         }
       }
     },
@@ -94,6 +124,12 @@
             "state": "translated",
             "value": "%lldつの空間 · やること %lld"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 個空間 · %lld 件待辦"
+          }
         }
       }
     },
@@ -106,6 +142,12 @@
           }
         },
         "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "BASYO"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "BASYO"
@@ -126,6 +168,12 @@
             "state": "translated",
             "value": "BASYO PRO"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "BASYO PRO"
+          }
         }
       }
     },
@@ -138,6 +186,12 @@
           }
         },
         "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "PRO"
@@ -158,6 +212,12 @@
             "state": "translated",
             "value": "Pro にする"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "升級 Pro"
+          }
         }
       }
     },
@@ -170,6 +230,12 @@
           }
         },
         "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where are you?"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "Where are you?"
@@ -190,6 +256,12 @@
             "state": "translated",
             "value": "「%@」を削除しますか？"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要刪除「%@」嗎？"
+          }
         }
       }
     },
@@ -205,6 +277,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "この操作は取り消せません。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此操作無法復原。"
           }
         }
       }
@@ -222,6 +300,12 @@
             "state": "translated",
             "value": "この空間は片付いています"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這個空間已整理完畢"
+          }
         }
       }
     },
@@ -237,6 +321,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "すべて片付いています"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部都整理好了"
           }
         }
       }
@@ -254,6 +344,12 @@
             "state": "translated",
             "value": "もう一度読み込む"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新載入"
+          }
         }
       }
     },
@@ -269,6 +365,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "やること %lld"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 件待辦"
           }
         }
       }
@@ -286,6 +388,12 @@
             "state": "translated",
             "value": "やることを入力"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入待辦事項"
+          }
         }
       }
     },
@@ -301,6 +409,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "アイコン"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圖示"
           }
         }
       }
@@ -318,6 +432,12 @@
             "state": "translated",
             "value": "キャンセル"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
         }
       }
     },
@@ -333,6 +453,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "コードを使う"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用兌換碼"
           }
         }
       }
@@ -351,6 +477,12 @@
             "state": "translated",
             "value": "ゴミ袋を補充"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "補充垃圾袋"
+          }
         }
       }
     },
@@ -367,6 +499,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "シャンプーを詰め替える"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "補充洗髮精"
           }
         }
       }
@@ -385,6 +523,12 @@
             "state": "translated",
             "value": "シンクを掃除"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清理水槽"
+          }
         }
       }
     },
@@ -402,6 +546,12 @@
             "state": "translated",
             "value": "シーツを洗う"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "洗床單"
+          }
         }
       }
     },
@@ -417,6 +567,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "タスクを追加"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增待辦"
           }
         }
       }
@@ -435,6 +591,12 @@
             "state": "translated",
             "value": "レポートを提出"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "繳交報告"
+          }
         }
       }
     },
@@ -451,6 +613,12 @@
             "state": "translated",
             "value": "一度の購入で、ずっと使える"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "買斷一次，永久使用"
+          }
         }
       }
     },
@@ -463,6 +631,12 @@
           }
         },
         "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "中"
@@ -483,6 +657,12 @@
             "state": "translated",
             "value": "中にある、やること %lld 件も一緒に削除されます。この操作は取り消せません。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "裡面的 %lld 件待辦也會一併刪除。此操作無法復原。"
+          }
         }
       }
     },
@@ -498,6 +678,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "価格を読み込めませんでした。通信状況を確かめて、もう一度お試しください。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法載入價格。請確認網路連線後再試一次。"
           }
         }
       }
@@ -516,6 +702,12 @@
             "state": "translated",
             "value": "借りた本を返す"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "還借來的書"
+          }
         }
       }
     },
@@ -531,6 +723,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "削除"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除"
           }
         }
       }
@@ -548,6 +746,12 @@
             "state": "translated",
             "value": "前へ移動"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "往前移動"
+          }
         }
       }
     },
@@ -563,6 +767,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "場所の名前"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "地點名稱"
           }
         }
       }
@@ -580,6 +790,12 @@
             "state": "translated",
             "value": "場所を、いくつでも追加"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "想加幾個地點都可以"
+          }
         }
       }
     },
@@ -595,6 +811,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "場所を、もっと。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更多地點。"
           }
         }
       }
@@ -612,6 +834,12 @@
             "state": "translated",
             "value": "場所をつくる"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建立地點"
+          }
         }
       }
     },
@@ -628,6 +856,12 @@
             "state": "translated",
             "value": "場所を削除"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除地點"
+          }
         }
       }
     },
@@ -640,6 +874,12 @@
           }
         },
         "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "大"
@@ -660,6 +900,12 @@
             "state": "translated",
             "value": "大きさ"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小"
+          }
         }
       }
     },
@@ -676,6 +922,12 @@
             "state": "translated",
             "value": "大きさ %@"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小 %@"
+          }
         }
       }
     },
@@ -688,6 +940,12 @@
           }
         },
         "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小"
+          }
+        },
+        "zh-Hant": {
           "stringUnit": {
             "state": "translated",
             "value": "小"
@@ -708,6 +966,12 @@
             "state": "translated",
             "value": "後ろへ移動"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "往後移動"
+          }
         }
       }
     },
@@ -723,6 +987,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "復元できませんでした。通信状況を確かめて、もう一度お試しください。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法恢復購買。請確認網路連線後再試一次。"
           }
         }
       }
@@ -740,6 +1010,12 @@
             "state": "translated",
             "value": "復元できる購入が見つかりませんでした。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找不到可恢復的購買項目。"
+          }
         }
       }
     },
@@ -755,6 +1031,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "新しい場所"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增地點"
           }
         }
       }
@@ -773,6 +1055,12 @@
             "state": "translated",
             "value": "洗剤を確認"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢查洗碗精"
+          }
         }
       }
     },
@@ -788,6 +1076,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "無料では、場所を%lldつまでつくれます。Pro にすると、実家やジム、カフェなど、よく行く場所をいくつでも足せます。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "免費版最多可以建立 %lld 個地點。升級 Pro 後，老家、健身房、咖啡廳，想加幾個常去的地點都可以。"
           }
         }
       }
@@ -805,6 +1099,12 @@
             "state": "translated",
             "value": "片付いています"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已整理完畢"
+          }
         }
       }
     },
@@ -820,6 +1120,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "空間を選んでください"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請選擇空間"
           }
         }
       }
@@ -837,6 +1143,12 @@
             "state": "translated",
             "value": "購入できませんでした。通信状況を確かめて、もう一度お試しください。"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法完成購買。請確認網路連線後再試一次。"
+          }
         }
       }
     },
@@ -852,6 +1164,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "購入の承認を待っています。承認されると、自動で Pro になります。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在等待核准。核准後會自動升級為 Pro。"
           }
         }
       }
@@ -869,6 +1187,12 @@
             "state": "translated",
             "value": "購入を復元"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢復購買"
+          }
         }
       }
     },
@@ -884,6 +1208,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "部屋 %lld 個、やること %lld 件も一緒に削除されます。この操作は取り消せません。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "裡面的 %lld 個房間和 %lld 件待辦也會一併刪除。此操作無法復原。"
           }
         }
       }
@@ -901,6 +1231,12 @@
             "state": "translated",
             "value": "部屋とやることは、これまで通り無制限"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "房間和待辦一樣沒有數量限制"
+          }
         }
       }
     },
@@ -916,6 +1252,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "部屋の名前"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "房間名稱"
           }
         }
       }
@@ -933,6 +1275,12 @@
             "state": "translated",
             "value": "部屋はまだありません"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "還沒有房間"
+          }
         }
       }
     },
@@ -948,6 +1296,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "部屋をつくる"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建立房間"
           }
         }
       }
@@ -965,6 +1319,12 @@
             "state": "translated",
             "value": "部屋を削除"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除房間"
+          }
         }
       }
     },
@@ -981,6 +1341,12 @@
             "state": "translated",
             "value": "部屋を追加"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增房間"
+          }
         }
       }
     },
@@ -996,6 +1362,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "閉じる"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉"
           }
         }
       }
@@ -1014,6 +1386,12 @@
             "state": "translated",
             "value": "電池を交換"
           }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "換電池"
+          }
         }
       }
     },
@@ -1029,6 +1407,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "＋ から部屋をつくれます"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點一下 ＋ 建立房間"
           }
         }
       }
