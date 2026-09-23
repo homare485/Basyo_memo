@@ -155,11 +155,11 @@ struct SpatialView: View {
 
     private var captionText: String {
         // 部屋が1つもない場所では、「選んで」ではなく「つくれる」ことを伝える。
-        if place.spaces.isEmpty { return "＋ から部屋をつくれます" }
-        guard let space = focusedSpace else { return "空間を選んでください" }
+        if place.spaces.isEmpty { return String(localized: "＋ から部屋をつくれます") }
+        guard let space = focusedSpace else { return String(localized: "空間を選んでください") }
         return space.openTaskCount == 0
-            ? "\(space.name.uppercased()) — 片付いています"
-            : "\(space.name.uppercased()) — やること \(space.openTaskCount)"
+            ? String(localized: "\(space.name.uppercased()) — 片付いています")
+            : String(localized: "\(space.name.uppercased()) — やること \(space.openTaskCount)")
     }
 
     // MARK: Actions
@@ -172,7 +172,7 @@ struct SpatialView: View {
     }
 
     private var deletionTitle: String {
-        "「\(spacePendingDeletion?.name.uppercased() ?? "")」を削除しますか？"
+        String(localized: "「\(spacePendingDeletion?.name.uppercased() ?? "")」を削除しますか？")
     }
 
     private func delete(_ space: Space) {

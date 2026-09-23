@@ -27,7 +27,9 @@ enum SampleData {
 
                 for title in spaceSeed.tasks {
                     // サンプルだと一目で分かるようにする。完了させればそのまま消せます。
-                    let task = TaskItem(title: "\(title)（サンプル）", createdAt: createdAt)
+                    // 端末の言語に合わせた文言で入ります（英語の端末なら英語）。
+                    let localized = String(localized: String.LocalizationValue(title))
+                    let task = TaskItem(title: String(localized: "\(localized)（サンプル）"), createdAt: createdAt)
                     context.insert(task)
                     task.space = space
                     createdAt += 1

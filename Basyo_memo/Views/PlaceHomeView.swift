@@ -321,14 +321,14 @@ struct PlaceHomeView: View {
     }
 
     private var deletionTitle: String {
-        "「\(placePendingDeletion?.displayName ?? "")」を削除しますか？"
+        String(localized: "「\(placePendingDeletion?.displayName ?? "")」を削除しますか？")
     }
 
     private func deletionMessage(for place: Place) -> String {
         let rooms = place.spaces.count
         let tasks = place.openTaskCount
-        guard rooms > 0 else { return "この操作は取り消せません。" }
-        return "部屋 \(rooms) 個、やること \(tasks) 件も一緒に削除されます。この操作は取り消せません。"
+        guard rooms > 0 else { return String(localized: "この操作は取り消せません。") }
+        return String(localized: "部屋 \(rooms) 個、やること \(tasks) 件も一緒に削除されます。この操作は取り消せません。")
     }
 
     private func delete(_ place: Place) {
@@ -441,8 +441,10 @@ private struct PlaceRow: View {
 /// 場所の状態を表す一言。タスク数は主役ではない補助情報として、控えめに出します。
 private enum PlaceStatus {
     static func text(for place: Place) -> String {
-        if place.spaces.isEmpty { return "部屋はまだありません" }
-        return place.openTaskCount == 0 ? "すべて片付いています" : "やること \(place.openTaskCount)"
+        if place.spaces.isEmpty { return String(localized: "部屋はまだありません") }
+        return place.openTaskCount == 0
+            ? String(localized: "すべて片付いています")
+            : String(localized: "やること \(place.openTaskCount)")
     }
 }
 

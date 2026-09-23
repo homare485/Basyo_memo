@@ -59,11 +59,12 @@ nonisolated enum RoomSize: String, Codable, CaseIterable {
         self == .small ? 1 : 2
     }
 
+    /// 画面に出す表記。端末の言語に合わせて翻訳されます。
     var label: String {
         switch self {
-        case .small: "小"
-        case .medium: "中"
-        case .large: "大"
+        case .small: String(localized: "小")
+        case .medium: String(localized: "中")
+        case .large: String(localized: "大")
         }
     }
 }

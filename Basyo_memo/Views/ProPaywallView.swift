@@ -110,7 +110,7 @@ struct ProPaywallView: View {
 
     // MARK: - Parts
 
-    private func feature(_ symbol: String, _ text: String) -> some View {
+    private func feature(_ symbol: String, _ text: LocalizedStringKey) -> some View {
         HStack(spacing: 12) {
             Image(systemName: symbol)
                 .font(.system(size: 15, weight: .light))
@@ -144,12 +144,12 @@ struct ProPaywallView: View {
     /// 価格を読み込めなかったときの一言。
     private var loadFailureMessage: String? {
         guard pro.productLoadFailed, !pro.isLoadingProduct else { return nil }
-        return "価格を読み込めませんでした。通信状況を確かめて、もう一度お試しください。"
+        return String(localized: "価格を読み込めませんでした。通信状況を確かめて、もう一度お試しください。")
     }
 
     private var purchaseTitle: String {
-        if let price = pro.priceText { return "\(price) で Pro にする" }
-        return pro.productLoadFailed ? "もう一度読み込む" : "Pro にする"
+        if let price = pro.priceText { return String(localized: "\(price) で Pro にする") }
+        return pro.productLoadFailed ? String(localized: "もう一度読み込む") : String(localized: "Pro にする")
     }
 
     // MARK: - Actions
@@ -172,10 +172,10 @@ struct ProPaywallView: View {
                 case .cancelled:
                     break
                 case .pending:
-                    message = "購入の承認を待っています。承認されると、自動で Pro になります。"
+                    message = String(localized: "購入の承認を待っています。承認されると、自動で Pro になります。")
                 }
             } catch {
-                message = "購入できませんでした。通信状況を確かめて、もう一度お試しください。"
+                message = String(localized: "購入できませんでした。通信状況を確かめて、もう一度お試しください。")
             }
         }
     }
@@ -189,10 +189,10 @@ struct ProPaywallView: View {
                 if try await pro.restore() {
                     unlock()
                 } else {
-                    message = "復元できる購入が見つかりませんでした。"
+                    message = String(localized: "復元できる購入が見つかりませんでした。")
                 }
             } catch {
-                message = "復元できませんでした。通信状況を確かめて、もう一度お試しください。"
+                message = String(localized: "復元できませんでした。通信状況を確かめて、もう一度お試しください。")
             }
         }
     }

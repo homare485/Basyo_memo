@@ -77,7 +77,7 @@ struct AddTaskView: View {
 
             Button(action: add) {
                 // 「追加」ではなく「置く」。このアプリの考え方をボタンの言葉にしています。
-                Text("\(space.name.uppercased()) に置く")
+                Text(String(localized: "\(space.name.uppercased()) に置く"))
                     .font(.system(size: 15, weight: .medium))
                     // 文字色は「画面の背景色」を明示的に使う（ライトなら白、ダークなら黒）。
                     .foregroundStyle(Color(uiColor: .systemBackground))

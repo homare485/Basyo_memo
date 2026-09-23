@@ -51,7 +51,7 @@ struct AddRoomView: View {
         .presentationBackground(Color(uiColor: .systemBackground))
     }
 
-    private func sectionLabel(_ text: String) -> some View {
+    private func sectionLabel(_ text: LocalizedStringKey) -> some View {
         Text(text)
             .font(.system(size: 12))
             .foregroundStyle(.secondary)
