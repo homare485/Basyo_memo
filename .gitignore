@@ -60,3 +60,6 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Shipaton 用の録画（容量が大きいため git には含めない）
+AppStore/shipaton/*.mp4
