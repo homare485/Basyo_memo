@@ -63,3 +63,6 @@ fastlane/test_output
 
 # Shipaton 用の録画（容量が大きいため git には含めない）
 AppStore/shipaton/*.mp4
+
+# 課金キーの画面を撮った画像（公開しない）
+AppStore/課金キー.png
