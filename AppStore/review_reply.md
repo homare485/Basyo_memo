@@ -8,11 +8,29 @@ Thank you for reviewing Basyo Memo. Please find the requested information below.
 
 **1. Screen recording**
 
-A screen recording captured on a physical iPhone running the latest iOS is available here:
-[録画をアップロードした URL をここに貼る]
+A screen recording captured on a physical iPhone (iPhone 16 Pro, latest iOS) is available here:
 
-The recording starts from launching the app and shows the typical user flow, including
-accessing the paid feature (the Pro in-app purchase) and restoring a purchase.
+https://youtu.be/roo8C5OYGrw
+
+The recording starts from launching the app on the Home Screen and shows the typical user
+flow, including accessing the paid feature (the Basyo Pro in-app purchase) and restoring
+that purchase after deleting and reinstalling the app. On-screen captions describe each
+step. Timeline:
+
+  0:00  Launching Basyo Memo from the Home Screen
+  0:05  Swiping between places (HOME, UNIVERSITY, WORK)
+  0:20  Opening a place shows its floor plan
+  0:26  Tapping a room shows only the tasks waiting in that room
+  0:33  Completing a task removes it from the room
+  0:42  Adding a task to a room
+  0:55  Adding a new room to the floor plan
+  1:28  The free tier allows three places, so tapping "New place" opens the purchase screen
+  1:36  Buying Basyo Pro through the App Store payment sheet (TestFlight sandbox, no charge)
+  2:13  Pro unlocked; a fourth place is created
+  2:58  The app is deleted and reinstalled from TestFlight, so Pro is locked again
+  3:16  Tapping "New place" opens the purchase screen again
+  3:23  Tapping "Restore purchase" — no payment sheet appears, the purchase is restored
+  3:31  Pro restored; places can be created again
 
 The app has no account registration, no login, and no account deletion flow, because it
 does not use accounts at all. It also has no user-generated content that is shared with
