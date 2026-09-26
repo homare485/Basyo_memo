@@ -138,7 +138,7 @@ struct PlaceHomeView: View {
             }
         }
         .sheet(isPresented: $isShowingAbout) {
-            AboutView()
+            AboutUsView()
         }
     }
     

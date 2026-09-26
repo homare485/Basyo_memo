@@ -36,7 +36,7 @@ extension Member {
     ]
 }
 
-struct AboutView: View {
+struct AboutUsView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -106,5 +106,5 @@ private struct MemberSection: View {
 }
 
 #Preview {
-    AboutView()
+    AboutUsView()
 }
