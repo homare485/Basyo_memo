@@ -58,7 +58,7 @@ Basyo Memo organizes tasks in three layers: Place → Space → Task.
 - Navigation uses SwiftUI's zoom transitions, so pressing a place expands it into
   its floor plan, and a room expands into its tasks — you feel like you are moving
   inward rather than switching screens.
-- RevenueCat powers a single non-consumable purchase that lifts the limit of three
+- RevenueCat powers a single non-consumable purchase that lifts the limit of five
   places.
 - Localized into English, Japanese and Traditional Chinese.
 
@@ -114,7 +114,7 @@ swift, swiftui, swiftdata, ios, xcode, revenuecat, storekit
 
 ## Try it
 
-- App Store: （公開後に URL を貼る）
+- App Store: https://apps.apple.com/app/id6815061856
 - Support & privacy: https://homare485.github.io/basyo-memo-site/
 - Judges: use the offer code below to unlock Pro for free.
   （承認後に発行したコードを貼る）
