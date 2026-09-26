@@ -5,6 +5,8 @@ Thank you for reviewing Basyo Memo. Please find the requested information below.
 Recorded on a physical iPhone 16 Pro running the latest iOS:
 https://youtu.be/roo8C5OYGrw
 
+Note: the recording was made with an earlier build whose free limit was 3 places. In the build submitted here the free limit is 5 places. The purchase and restore flows are identical; only the number differs.
+
 It starts from launching the app and shows the typical user flow, including the paid feature and restoring it. On-screen captions describe each step.
 
 0:00 Launch from the Home Screen
@@ -24,7 +26,7 @@ The app has no account registration, login or deletion flow, because it uses no 
 
 2. PURPOSE AND TARGET AUDIENCE
 
-Basyo Memo is a to-do app that organizes tasks by the place where they happen, instead of one long list. In ordinary to-do apps, "restock the trash bags" and "return the library book" sit next to each other although they happen in completely different places, so the list does not match how people remember their tasks.
+Basyo Memo is a to-do app that organizes tasks by the place where they happen, instead of one long list.
 
 Tasks live in three layers: Place, Space (room) and Task. The user chooses a place, sees a simple floor plan, taps a room, and sees only the tasks waiting in that room. Completing a task removes it from the room, so the space visibly becomes tidier.
 
@@ -38,7 +40,7 @@ No login, account or sample file is required, and the app works fully offline.
 2) Tap a place card to open its floor plan.
 3) Tap a room to see its tasks; tap a task to complete it.
 4) Tap "+" at the bottom right of a room to add a task, or "+" in the navigation bar to add a room. Long-press a room to delete it.
-5) Paid feature: on the first screen tap "New place". The free version allows three places, so the purchase screen appears. "Restore purchase" is on the same screen.
+5) Paid feature: the free version allows five places. Once five places exist, tapping "New place" on the first screen opens the purchase screen. "Restore purchase" is on the same screen.
 
 4. EXTERNAL SERVICES
 

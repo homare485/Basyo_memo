@@ -34,7 +34,7 @@
 
 Basyo Memo uses a single non-consumable in-app purchase: "Basyo Pro", ¥500 (about $3), bought once and kept forever. There is no subscription and no advertising.
 
-The free tier is not a trial. It includes three places with unlimited rooms and unlimited tasks, so the entire core experience — choosing a place, opening its floor plan, stepping into a room and clearing what is waiting there — is fully usable without paying. The paywall appears at exactly one moment: when a user who already has three places taps "New place". That is the moment a user has decided the app is worth keeping, so the ask lands when the value is already proven rather than at first launch.
+The free tier is not a trial. It includes five places with unlimited rooms and unlimited tasks, so the entire core experience — choosing a place, opening its floor plan, stepping into a room and clearing what is waiting there — is fully usable without paying. The paywall appears at exactly one moment: when a user who already has five places taps "New place". That is the moment a user has decided the app is worth keeping, so the ask lands when the value is already proven rather than at first launch.
 
 Why buy-once rather than a subscription: the app stores everything on the device, has no server and no account, and provides no ongoing service that would justify a recurring fee. Charging a subscription for something that keeps working offline forever would be dishonest, and users notice. A single small purchase matches what the app actually is.
 

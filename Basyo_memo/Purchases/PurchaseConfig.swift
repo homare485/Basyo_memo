@@ -20,7 +20,7 @@ enum PurchaseConfig {
     static let entitlementID = "basyo_memo_pro"
 
     /// 無料で作れる場所の数。
-    static let freePlaceLimit = 3
+    static let freePlaceLimit = 5
 
     /// API キーがまだ仮の値のままか。
     static var hasPlaceholderKey: Bool {
