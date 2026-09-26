@@ -137,16 +137,38 @@ struct PlaceHomeView: View {
                 currentPlaceID = ids.first
             }
         }
+        .sheet(isPresented: $isShowingAbout) {
+            AboutView()
+        }
     }
-
+    
     // MARK: Header
+    
+    @State private var isShowingAbout = false
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("BASYO")
-                .font(.system(size: 11, weight: .medium))
-                .tracking(3.5)
-                .foregroundStyle(.tertiary)
+            HStack {
+                Text("BASYO")
+                    .font(.system(size: 11, weight: .medium))
+                    .tracking(3.5)
+                    .foregroundStyle(.tertiary)
+
+                Spacer()
+
+                Button {
+                    isShowingAbout = true
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.system(size: 14, weight: .regular))
+                        .foregroundStyle(.gray)
+                        .frame(width: 54, height: 54)
+                        .contentShape(Rectangle())
+                }
+                .padding(.trailing, -12)                // 讓圖示視覺上對齊右邊界
+                .accessibilityLabel("設定と情報")
+            }
+            .frame(height: 20)
 
             Text("Where are you?")
                 .font(.system(size: 32, weight: .light))
