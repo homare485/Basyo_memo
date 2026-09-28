@@ -5,7 +5,8 @@ import UIKit
 /// 部屋の追加。
 ///
 /// Add Task と同じく「今見ている場所に足す」。
-/// どの Place に足すかは開いた時点で決まっているので、選ぶのは名前・大きさ・アイコンだけです。
+/// どの Place に足すかは開いた時点で決まっているので、選ぶのは名前・アイコン・置く場所と大きさです。
+/// 置く場所と大きさは、家の枠の中の点のマス目の上で、部屋を動かしたり広げたりして決めます。
 struct AddRoomView: View {
     let place: Place
 
@@ -13,42 +14,94 @@ struct AddRoomView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var name = ""
-    @State private var size: RoomSize = .small
     @State private var symbolName = RoomIcons.all[0]
 
+    /// 新しい部屋の位置と大きさ（単位はマス）。
+    @State private var rect: GridRect
+
     @FocusState private var isNameFocused: Bool
+
+    init(place: Place) {
+        self.place = place
+
+        // 最初は、上から見て最初に入る空きに、以前の「小」と同じ大きさで置いておく。
+        var taken: [GridRect] = []
+        for space in place.spaces {
+            if let existing = space.gridRect {
+                taken.append(existing)
+            }
+        }
+        let firstRect = FloorGrid.firstFreeRect(
+            width: RoomSize.small.defaultGridWidth,
+            height: RoomSize.small.defaultGridHeight,
+            among: taken
+        )
+        _rect = State(initialValue: firstRect)
+    }
 
     private var trimmedName: String {
         name.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
+    private var others: [PlacedRoom] {
+        PlacedRoom.rooms(in: place)
+    }
+
+    /// 家の枠に収まっているか（重なった部屋は押し出すので、重なりは見ない）。
+    private var canPlace: Bool {
+        FloorGrid.isInBounds(rect)
+    }
+
+    private var canCreate: Bool {
+        !trimmedName.isEmpty && canPlace
+    }
+
+    /// 編集画面の部屋に出す名前。まだ何も入力していなければ仮の名前。
+    private var previewName: String {
+        trimmedName.isEmpty ? String(localized: "新しい部屋") : trimmedName
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(place.displayName)
-                .font(.system(size: 11, weight: .medium))
-                .tracking(2)
-                .foregroundStyle(.tertiary)
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(place.displayName)
+                        .font(.system(size: 11, weight: .medium))
+                        .tracking(2)
+                        .foregroundStyle(.tertiary)
 
-            TextField("部屋の名前", text: $name)
-                .font(.system(size: 22, weight: .light))
-                .focused($isNameFocused)
-                .submitLabel(.done)
-                .padding(.top, 22)
+                    TextField("部屋の名前", text: $name)
+                        .font(.system(size: 22, weight: .light))
+                        .focused($isNameFocused)
+                        .submitLabel(.done)
+                        .padding(.top, 22)
 
-            sectionLabel("大きさ")
-            sizePicker
+                    sectionLabel("アイコン")
+                    iconPicker
 
-            sectionLabel("アイコン")
-            iconPicker
-
-            Spacer(minLength: 24)
+                    sectionLabel("配置と大きさ")
+                    RoomLayoutEditor(
+                        others: others,
+                        rect: $rect,
+                        name: previewName,
+                        symbolName: symbolName
+                    )
+                }
+                .padding(28)
+            }
+            .scrollIndicators(.hidden)
+            .scrollDismissesKeyboard(.immediately)
 
             actions
+                .padding(.horizontal, 28)
+                .padding(.vertical, 16)
         }
-        .padding(28)
-        .presentationDetents([.height(470)])
+        // 点のマス目を広く見せたいので、シートは画面いっぱいまで広げる。
+        .presentationDetents([.large])
         // Add Task と同じく、奥が透けない不透明な背景にする。
         .presentationBackground(Color(uiColor: .systemBackground))
+        // 下にスワイプして閉じようとした指が、部屋のドラッグと取り合わないように。
+        .interactiveDismissDisabled()
     }
 
     private func sectionLabel(_ text: LocalizedStringKey) -> some View {
@@ -57,41 +110,6 @@ struct AddRoomView: View {
             .foregroundStyle(.secondary)
             .padding(.top, 28)
             .padding(.bottom, 12)
-    }
-
-    // MARK: Size
-
-    /// 大きさの選択。文字だけでなく、間取りの上で使うマスを小さな図で見せます。
-    private var sizePicker: some View {
-        HStack(spacing: 10) {
-            ForEach(RoomSize.allCases, id: \.self) { option in
-                Button {
-                    size = option
-                } label: {
-                    VStack(spacing: 10) {
-                        SizeDiagram(size: option)
-                        Text(option.label)
-                            .font(.system(size: 13))
-                            .foregroundStyle(option == size ? .primary : .secondary)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(Color.primary.opacity(option == size ? 0.06 : 0.02))
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .strokeBorder(Color.primary.opacity(option == size ? 0.6 : 0.08), lineWidth: 1)
-                    )
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("大きさ \(option.label)")
-                .accessibilityAddTraits(option == size ? .isSelected : [])
-            }
-        }
-        .animation(.snappy(duration: 0.2), value: size)
-        .sensoryFeedback(.selection, trigger: size)
     }
 
     // MARK: Icon
@@ -139,54 +157,39 @@ struct AddRoomView: View {
                     .foregroundStyle(Color(uiColor: .systemBackground))
                     .padding(.horizontal, 22)
                     .frame(height: 46)
-                    .background(Capsule().fill(Color.primary.opacity(trimmedName.isEmpty ? 0.15 : 1)))
+                    .background(Capsule().fill(Color.primary.opacity(canCreate ? 1 : 0.15)))
             }
             .buttonStyle(.plain)
-            .disabled(trimmedName.isEmpty)
-            .animation(.easeOut(duration: 0.15), value: trimmedName.isEmpty)
+            .disabled(!canCreate)
+            .animation(.easeOut(duration: 0.15), value: canCreate)
         }
     }
 
     private func add() {
-        guard !trimmedName.isEmpty else { return }
+        guard canCreate else { return }
 
-        // 最後に足した部屋の、次の順番にする。間取りでは、上から見て最初に入る空きに置かれます。
         let nextIndex = (place.spaces.map(\.sortIndex).max() ?? -1) + 1
-        let space = Space(name: trimmedName, symbolName: symbolName, size: size, sortIndex: nextIndex)
+        let space = Space(
+            name: trimmedName,
+            symbolName: symbolName,
+            size: RoomSize.approximating(width: rect.width, height: rect.height),
+            sortIndex: nextIndex
+        )
+        // ユーザーが決めた位置と大きさ。
+        space.setGridRect(rect)
+
+        // 重なっていた部屋を、押し出した先へ動かす（新しい部屋を足す前に、今ある部屋だけで計算）。
+        let arranged = PlacedRoom.makingRoom(for: rect, in: others)
 
         // 先にデータベースへ入れてから、Place と結びつける（SwiftData の安全な順番）。
         modelContext.insert(space)
         withAnimation(.snappy(duration: 0.35)) {
+            PlacedRoom.apply(arranged, to: place)
             space.place = place
         }
         try? modelContext.save()
 
         dismiss()
-    }
-}
-
-// MARK: - Size Diagram
-
-/// 2×2 のマス目のうち、その大きさの部屋が使うマスだけを塗った小さな図。
-private struct SizeDiagram: View {
-    let size: RoomSize
-
-    var body: some View {
-        Grid(horizontalSpacing: 2, verticalSpacing: 2) {
-            ForEach(0..<2, id: \.self) { row in
-                GridRow {
-                    ForEach(0..<2, id: \.self) { column in
-                        RoundedRectangle(cornerRadius: 2, style: .continuous)
-                            .fill(Color.primary.opacity(isUsed(row: row, column: column) ? 0.8 : 0.1))
-                            .frame(width: 13, height: 13)
-                    }
-                }
-            }
-        }
-    }
-
-    private func isUsed(row: Int, column: Int) -> Bool {
-        row < size.rows && column < size.columns
     }
 }
 

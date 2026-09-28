@@ -35,6 +35,9 @@ enum SampleData {
                     createdAt += 1
                 }
             }
+
+            // 部屋の位置と大きさを決める（下の図のとおり、上から・左から詰めて置く）。
+            place.placeUnplacedRooms()
         }
 
         try? context.save()
@@ -56,7 +59,8 @@ enum SampleData {
     }
 
     private static let seeds: [PlaceSeed] = [
-        // 間取り（横2列のマス目に、上から順に詰めて並べる）
+        // 間取り（追加した順に、上から・左から詰めて置く）
+        // 小 = 横3×縦2マス、中 = 横3×縦4マス、大 = 横6×縦4マス
         //
         //  ┌─────────┬─────────┐
         //  │         │BATH  (小)│
