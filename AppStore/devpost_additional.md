@@ -40,7 +40,7 @@ Why buy-once rather than a subscription: the app stores everything on the device
 
 RevenueCat manages the purchase, the entitlement and restoration across devices. The app never talks to StoreKit directly; a single class exposes "is this user Pro" to the interface, which keeps the paywall logic in one place.
 
-The app is awaiting App Store approval at the time of submission, so no conversion data is available yet.
+Basyo Memo 1.0 shipped on 25 September 2026 and Basyo Pro was approved on 27 September, so the purchase has only been live for a few days and there is no meaningful conversion data yet.
 
 ### RevenueCat Design Award
 
@@ -73,9 +73,7 @@ Its single opinionated idea — organise tasks by the place where they happen, a
 
 Basyo Memo is my first iOS app and my first App Store submission. It was designed and built during Shipaton, one screen at a time.
 
-The app is currently in App Store review. The purchase flow has been verified end to end in the sandbox, and a recording of the full flow, including the purchase and the restore, was provided to App Review.
-
-If the offer code is missing from this submission, the app was still in review at the time of writing; please contact me and I will provide one immediately.
+The app and the in-app purchase are both live on the App Store. The purchase and restore flows were verified end to end on a physical device before release.
 
 --------------------------------------------------------------
 
